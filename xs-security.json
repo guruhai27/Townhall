@@ -1,5 +1,5 @@
 {
-  "xsappname": "Townhall",
+  "xsappname": "townhall",
   "tenant-mode": "dedicated",
   "scopes": [
     {
@@ -11,6 +11,13 @@
       "description": "someone can perform CURD on data using this scope"
     }
   ],
+  "attributes": [
+    {
+      "name": "nameFirst",
+      "description": "Participant Name property",
+      "valueType": "string"
+    }
+  ],
   "role-templates": [
     {
       "name": "Viewer",
@@ -18,6 +25,11 @@
       "default-role-name": "Viewer: Authorized to Read All Data",
       "scope-references": [
         "$XSAPPNAME.Viewer"
+      ],
+      "attribute-references": [
+        {
+          "name": "nameFirst"
+        }
       ]
     },
     {
@@ -37,6 +49,5 @@
       "https://*.cfapps.us10-001.hana.ondemand.com/login/callback"
     ]
   },
-  "xsenableasyncservice": "true",
-  "attributes": []
+  "xsenableasyncservice": "true"
 }

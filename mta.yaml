@@ -8,16 +8,29 @@ build-parameters:
   before-all:
     - builder: custom
       commands:
-        - npm ci
         - npx cds build --production
 modules:
-  - name: keithtownhall-srv
+  - name: townhall-ui
+    type: nodejs
+    path: app
+    parameters:
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm-ci
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api
+          strictSSL: true
+          forwardAuthToken: true
+          url: '~{srv-url}'
+          
+  - name: Townhall-srv
     type: nodejs
     path: gen/srv
     parameters:
       buildpack: nodejs_buildpack
-      readiness-health-check-type: http
-      readiness-health-check-http-endpoint: /health
     build-parameters:
       builder: npm
     provides:
@@ -25,29 +38,26 @@ modules:
         properties:
           srv-url: ${default-url}
     requires:
-      - name: keithtownhall-db
-      - name: keithtownhall-auth
+      - name: Townhall-db
+      - name: Townhall-xsuaa
 
-  - name: keithtownhall-db-deployer
+  - name: Townhall-db-deployer
     type: hdb
     path: gen/db
     parameters:
       buildpack: nodejs_buildpack
     requires:
-      - name: keithtownhall-db
+      - name: Townhall-db
 
 resources:
-  - name: keithtownhall-db
+  - name: Townhall-db
     type: com.sap.xs.hdi-container
     parameters:
       service: hana
       service-plan: hdi-shared
-  - name: keithtownhall-auth
+  - name: Townhall-xsuaa
     type: org.cloudfoundry.managed-service
     parameters:
+      path: ./xs-security.json
       service: xsuaa
       service-plan: application
-      path: ./xs-security.json
-      config:
-        xsappname: keithtownhall-${org}-${space}
-        tenant-mode: dedicated

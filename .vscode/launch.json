@@ -17,7 +17,7 @@
       ]
     },
     {
-      "name": "Run keithtownhall-1",
+      "name": "Run Townhall-1",
       "request": "launch",
       "type": "node",
       "cwd": "${workspaceFolder}",
@@ -34,7 +34,7 @@
       "envFile": "${workspaceFolder}/.env1",
       "env": {
         "NODE_ENV": "development",
-        "run.config": "{\"handlerId\":\"cap_run_config_handler_id\",\"runnableId\":\"{\\\"projectPath\\\":\\\"/home/user/projects/keithtownhall\\\",\\\"profileName\\\":\\\"development\\\"}\"}"
+        "run.config": "{\"handlerId\":\"cap_run_config_handler_id\",\"runnableId\":\"{\\\"projectPath\\\":\\\"/home/user/projects/Townhall\\\",\\\"profileName\\\":\\\"development\\\"}\"}"
       }
     }
   ]

@@ -28,7 +28,7 @@
       "problemMatcher": []
     },
     {
-      "label": "cds-deploy-to-hana-keithtownhall-sayandhan",
+      "label": "cds-deploy-to-hana-Townhall-sayandhan",
       "type": "shell",
       "command": "cds",
       "args": [
