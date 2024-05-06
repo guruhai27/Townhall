@@ -1,7 +1,6 @@
 {
   "name": "townhall-ui",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node node_modules/@sap/approuter/approuter.js",
@@ -11,5 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "@sap/approuter": "^16.4.2"
-  }
+  },
+  "description": ""
 }

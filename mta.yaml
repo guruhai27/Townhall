@@ -1,5 +1,5 @@
 _schema-version: '3.1'
-ID: keithtownhall
+ID: townhall
 version: 1.0.0
 description: "A simple CAP project."
 parameters:
@@ -25,8 +25,8 @@ modules:
           strictSSL: true
           forwardAuthToken: true
           url: '~{srv-url}'
-          
-  - name: Townhall-srv
+
+  - name: townhall-srv
     type: nodejs
     path: gen/srv
     parameters:
@@ -38,26 +38,45 @@ modules:
         properties:
           srv-url: ${default-url}
     requires:
-      - name: Townhall-db
-      - name: Townhall-xsuaa
+      - name: townhall-db
+      - name: townhall-xsuaa
 
-  - name: Townhall-db-deployer
+  - name: townhall-db-deployer
     type: hdb
     path: gen/db
     parameters:
       buildpack: nodejs_buildpack
     requires:
-      - name: Townhall-db
+      - name: townhall-db
+
+  - name: townhall.ui
+    type: approuter.nodejs
+    path: app/router
+    parameters:
+      keep-existing-routes: true
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api # must be used in xs-app.json as well
+          url: ~{srv-url}
+          forwardAuthToken: true
+      - name: townhall-xsuaa
 
 resources:
-  - name: Townhall-db
+  - name: townhall-db
     type: com.sap.xs.hdi-container
     parameters:
       service: hana
       service-plan: hdi-shared
-  - name: Townhall-xsuaa
+  - name: townhall-xsuaa
     type: org.cloudfoundry.managed-service
     parameters:
       path: ./xs-security.json
       service: xsuaa
       service-plan: application
+      config:
+        xsappname: townhall.ui-${org}-${space}
+        tenant-mode: dedicated

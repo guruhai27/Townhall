@@ -1,8 +1,8 @@
 using {guru.db.master} from '../db/datamodel';
 
-// service CatalogService @(path: 'CatalogService',
-//                          requires: 'authenticated-user') {
-service CatalogService @(path: 'CatalogService') {  
+service CatalogService @(path: 'CatalogService',
+                         requires: 'authenticated-user') {
+// service CatalogService @(path: 'CatalogService') {  
 
   entity EmployeeSet @(
     odata.draft.enabled         : true,
