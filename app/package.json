@@ -9,7 +9,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@sap/approuter": "^16.4.2"
+    "@sap/approuter": "^16.4.2",
+    "@sap/xssec": "^3"
   },
-  "description": ""
+  "description": "",
+  "cds": {
+    "requires": {
+      "auth": "xsuaa"
+    }
+  }
 }

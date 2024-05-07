@@ -8,8 +8,29 @@ build-parameters:
   before-all:
     - builder: custom
       commands:
+        - npm ci
         - npx cds build --production
 modules:
+  # - name: townhall-ui
+  #   type: approuter.nodejs
+  #   path: app
+  #   parameters:
+  #     buildpack: nodejs_buildpack
+  #     keep-existing-routes: true
+  #     disk-quota: 1024M
+  #     memory: 1024M
+  #   build-parameters:
+  #     builder: npm-ci
+  #   requires:
+  #     - name: srv-api
+  #       group: destinations
+  #       properties:
+  #         name: srv-api # must be used in xs-app.json as well
+  #         url: ~{srv-url}
+  #         forwardAuthToken: true
+  #     - name: townhall-db
+  #     - name: townhall-xsuaa
+
   - name: townhall-ui
     type: nodejs
     path: app
@@ -18,6 +39,8 @@ modules:
     build-parameters:
       builder: npm-ci
     requires:
+      - name: townhall-xsuaa
+      - name: townhall-db
       - name: srv-api
         group: destinations
         properties:
@@ -31,6 +54,8 @@ modules:
     path: gen/srv
     parameters:
       buildpack: nodejs_buildpack
+      readiness-health-check-type: http
+      readiness-health-check-http-endpoint: /health
     build-parameters:
       builder: npm
     provides:
@@ -49,21 +74,21 @@ modules:
     requires:
       - name: townhall-db
 
-  - name: townhall.ui
-    type: approuter.nodejs
-    path: app/router
-    parameters:
-      keep-existing-routes: true
-      disk-quota: 256M
-      memory: 256M
-    requires:
-      - name: srv-api
-        group: destinations
-        properties:
-          name: srv-api # must be used in xs-app.json as well
-          url: ~{srv-url}
-          forwardAuthToken: true
-      - name: townhall-xsuaa
+  # - name: townhall-ui
+  #   type: approuter.nodejs
+  #   path: app/router
+  #   parameters:
+  #     keep-existing-routes: true
+  #     disk-quota: 256M
+  #     memory: 256M
+  #   requires:
+  #     - name: srv-api
+  #       group: destinations
+  #       properties:
+  #         name: srv-api # must be used in xs-app.json as well
+  #         url: ~{srv-url}
+  #         forwardAuthToken: true
+  #     - name: townhall-xsuaa
 
 resources:
   - name: townhall-db
@@ -74,9 +99,10 @@ resources:
   - name: townhall-xsuaa
     type: org.cloudfoundry.managed-service
     parameters:
-      path: ./xs-security.json
       service: xsuaa
       service-plan: application
+      path: ./xs-security.json
+
       config:
-        xsappname: townhall.ui-${org}-${space}
+        xsappname: townhall-${org}-${space}
         tenant-mode: dedicated

@@ -4,10 +4,10 @@ service CatalogService @(path: 'CatalogService',
                          requires: 'authenticated-user') {
 // service CatalogService @(path: 'CatalogService') {  
 
-  entity EmployeeSet @(
-    odata.draft.enabled         : true,
-    Common.DefaultValuesFunction: 'setDefaultValue'
-  ) as
+  entity EmployeeSet @(odata.draft.enabled : true,
+                       Common.DefaultValuesFunction: 'setDefaultValue' ) 
+                     @(restrict: [{grant: ['READ'], to: 'Viewer', where: 'email =$user.email'},
+                                  {grant: ['WRITE'], to: 'Admin' }])as
     projection on master.employees {
       *,
       case recvdGoodies
