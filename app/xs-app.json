@@ -1,19 +1,14 @@
 {
     "welcomeFile": "employeedetails/webapp/",
-    "authenticationMethod": "route",
-    "sessionTimeout": 100,
-    "pluginMetadataEndpoint": "/metadata",
-    "routes": [
-      {
-        "source": "^employeedetails/webapp/(.*)",
-        "target": "$1",
-        "localDir": "employeedetails/webapp/",
-        "authenticationType": "xsuaa"
-      },
-      {
-        "source": "^/(.*)$",
-        "destination": "srv-api",
-        "authenticationType": "xsuaa"
-      }
-    ]
-  }
+
+      "authenticationMethod": "route",
+      "routes": [
+        {
+          "source": "/",
+          "target": "/",
+          "destination": "nodeBackend1",
+          "csrfProtection": false,
+          "authenticationType": "none"
+        }
+      ]
+    }

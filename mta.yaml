@@ -89,6 +89,21 @@ modules:
   #         url: ~{srv-url}
   #         forwardAuthToken: true
   #     - name: townhall-xsuaa
+  # - name: townhall-ui
+  #   type: approuter.nodejs
+  #   path: app/router
+  #   parameters:
+  #     keep-existing-routes: true
+  #     disk-quota: 256M
+  #     memory: 256M
+  #   requires:
+  #     - name: srv-api
+  #       group: destinations
+  #       properties:
+  #         name: srv-api # must be used in xs-app.json as well
+  #         url: ~{srv-url}
+  #         forwardAuthToken: true
+  #     - name: townhall-xsuaa
 
 resources:
   - name: townhall-db

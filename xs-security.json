@@ -13,8 +13,8 @@
   ],
   "attributes": [
     {
-      "name": "email",
-      "description": "Participant Email property",
+      "name": "nameFirst",
+      "description": "Participant Name property",
       "valueType": "string"
     }
   ],
@@ -28,7 +28,7 @@
       ],
       "attribute-references": [
         {
-          "name": "email"
+          "name": "nameFirst"
         }
       ]
     },
@@ -51,4 +51,3 @@
   },
   "xsenableasyncservice": "true"
 }
-
